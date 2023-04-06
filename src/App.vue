@@ -1,13 +1,11 @@
 <template>
   <div class="container">
     <GGGlobalHeader :user="currentUser"></GGGlobalHeader>
-    <form action="">
+    <ValidateForm @form-submit="onFormSubmit">
       <div class="mb-3">
-        <label class="form-label">邮箱地址</label>
-        <validate-input :rules="emailRules"></validate-input>
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
+        <label for="exampleInputEmail1" class="form-label"
+          >邮箱地址(参考，不用)</label
+        >
         <input
           type="text"
           class="form-control"
@@ -20,23 +18,39 @@
         </div>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">密码</label>
-        <input
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-        />
+        <label class="form-label">邮箱地址</label>
+        <validate-input
+          :rules="emailRules"
+          ref="inputRef"
+          v-model="emailVal"
+          placeholder="请输入邮箱"
+          type="text"
+        ></validate-input>
       </div>
-    </form>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">密码</label>
+        <validate-input
+          :rules="passwordRules"
+          ref="inputRef"
+          v-model="passwordVal"
+          placeholder="请输入密码"
+          type="password"
+        ></validate-input>
+      </div>
+      <template v-slot:submit>
+        <span class="btn btn-danger">提交2</span>
+      </template>
+    </ValidateForm>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GGGlobalHeader, { UUserProps } from './components/GGGlobalHeader.vue'
 import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
+import ValidateForm from './components/ValidateForm.vue'
 
 const currentUser: UUserProps = {
   isLogin: true,
@@ -83,6 +97,11 @@ const emailRules: RulesProp = [
   { type: 'required', message: '电子邮箱地址不能为空' },
   { type: 'email', message: '请输入正确的电子邮箱格式' }
 ]
+// 自定义函数了
+const passwordRules: RulesProp = [
+  { type: 'required', message: '密码不能为空' },
+  { type: 'pass', message: '请输入正确的密码(只能包含字母和数字)' }
+]
 
 // 验证邮箱的正则表达式
 const emailReg =
@@ -91,14 +110,18 @@ export default defineComponent({
   name: 'App',
   components: {
     GGGlobalHeader,
-    ValidateInput
+    ValidateInput,
+    ValidateForm
   },
   setup() {
+    const inputRef = ref<any>()
+    const emailVal = ref('')
     const emailRef = reactive({
       val: '',
       error: false,
       message: ''
     })
+    // 下面这个验证是第一个框，可以不要，留着供参考
     const validateEmail = () => {
       if (emailRef.val.trim() === '') {
         emailRef.error = true
@@ -108,12 +131,24 @@ export default defineComponent({
         emailRef.message = '请输入正确的邮箱'
       }
     }
+    // --------------------------------------
+    const passwordVal = ''
+    // 监听子组件的点击结果
+    const onFormSubmit = (result: boolean) => {
+      console.log('669', inputRef.value.validateInput())
+      console.log('1234', result)
+    }
     return {
       list: testData,
       currentUser,
       emailRef,
       validateEmail,
-      emailRules
+      emailRules,
+      emailVal,
+      onFormSubmit,
+      inputRef,
+      passwordRules,
+      passwordVal
     }
   }
 })
