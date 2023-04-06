@@ -21,7 +21,7 @@ import { defineComponent } from 'vue'
 import { testData } from '../testData'
 import ColumnList from '../components/ColumnList.vue'
 export default defineComponent({
-  name: 'Home',
+  name: 'HomeV',
   components: {
     ColumnList
   },

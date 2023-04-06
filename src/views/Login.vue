@@ -30,7 +30,7 @@ import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
 
 export default defineComponent({
-  name: 'Login',
+  name: 'LoginV',
   components: {
     ValidateInput,
     ValidateForm
