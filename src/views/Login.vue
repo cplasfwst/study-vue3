@@ -43,7 +43,8 @@ export default defineComponent({
     ]
     const passwordVal = ref('')
     const passwordRules: RulesProp = [
-      { type: 'required', message: '密码不能为空' }
+      { type: 'required', message: '密码不能为空' },
+      { type: 'pass', message: '请输入正确的密码' }
     ]
     const onFormSubmit = (result: boolean) => {
       console.log('result', result)
