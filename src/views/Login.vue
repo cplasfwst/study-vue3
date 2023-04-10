@@ -28,6 +28,8 @@
 import { defineComponent, ref } from 'vue'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
+import store from '@/store'
+import router from '@/router'
 
 export default defineComponent({
   name: 'LoginV',
@@ -43,11 +45,20 @@ export default defineComponent({
     ]
     const passwordVal = ref('')
     const passwordRules: RulesProp = [
-      { type: 'required', message: '密码不能为空' },
-      { type: 'pass', message: '请输入正确的密码' }
+      { type: 'required', message: '密码不能为空' }
+      // { type: 'pass', message: '请输入正确的密码' }
     ]
     const onFormSubmit = (result: boolean) => {
-      console.log('result', result)
+      if (result) {
+        const payload = {
+          email: emailVal.value,
+          password: passwordVal.value
+        }
+        store.dispatch('loginAndFetch', payload).then((data) => {
+          console.log(data, '注意查来看1111')
+          router.push('/')
+        })
+      }
     }
     return {
       emailRules,

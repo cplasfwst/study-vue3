@@ -25,7 +25,7 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import GGGlobalHeader, { UUserProps } from './components/GGGlobalHeader.vue'
+import GGGlobalHeader from './components/GGGlobalHeader.vue'
 import LoaderV from './components/LoaderV.vue'
 import { is } from '@babel/types'
 
