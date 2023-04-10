@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <GGGlobalHeader :user="currentUser"></GGGlobalHeader>
-    <h1 v-if="isLoading">正在读取......</h1>
+    <LoaderV
+      v-if="isLoading"
+      text="拼命加载中"
+      background="rgba(0,0,0, 0.8)"
+    ></LoaderV>
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -22,11 +26,14 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import GGGlobalHeader, { UUserProps } from './components/GGGlobalHeader.vue'
+import LoaderV from './components/LoaderV.vue'
+import { is } from '@babel/types'
 
 export default defineComponent({
   name: 'App',
   components: {
-    GGGlobalHeader
+    GGGlobalHeader,
+    LoaderV
   },
   setup() {
     const store = useStore()
