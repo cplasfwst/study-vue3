@@ -31,8 +31,9 @@ const emailReg =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 const passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
 interface RuleProp {
-  type: 'required' | 'email' | 'pass'
+  type: 'required' | 'email' | 'pass' | 'custom'
   message: string
+  validator?: () => boolean
 }
 export type RulesProp = RuleProp[]
 export type TagType = 'input' | 'textarea'
@@ -71,6 +72,9 @@ export default defineComponent({
               break
             case 'pass':
               passed = passReg.test(inputRef.val)
+              break
+            case 'custom':
+              passed = rule.validator ? rule.validator() : true
               break
             default:
               break

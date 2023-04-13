@@ -44,6 +44,7 @@ export default defineComponent({
     const token = computed(() => store.state.token)
     const error = computed(() => store.state.error)
     onMounted(() => {
+      createMessage('成功进入首页', 'success', 2000)
       if (!currentUser.value.isLogin && token.value) {
         axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
         store.dispatch('fetchCurrentUser')
@@ -54,7 +55,7 @@ export default defineComponent({
       () => {
         const { status, message } = error.value
         if (status && message) {
-          createMessage(message, 'error')
+          createMessage(message, 'error', 2000)
         }
       }
     )
