@@ -41,15 +41,8 @@ export default defineComponent({
     const store = useStore<GlobalDataProps>()
     const currentUser = computed(() => store.state.user)
     const isLoading = computed(() => store.state.loading)
-    const token = computed(() => store.state.token)
     const error = computed(() => store.state.error)
-    onMounted(() => {
-      createMessage('成功进入首页', 'success', 2000)
-      if (!currentUser.value.isLogin && token.value) {
-        axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
-        store.dispatch('fetchCurrentUser')
-      }
-    })
+
     watch(
       () => error.value.status,
       () => {

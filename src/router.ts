@@ -50,6 +50,17 @@ router.beforeEach((to, from, next) => {
   if(!user.isLogin) {
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
+      store.dispatch('fetchCurrentUser').then(() => {
+        if (redirectAlreadyLogin) {
+          next('/')
+        }else {
+          next()
+        }
+      }).catch(e => {
+        console.error(e)
+        localStorage.removeItem('token')
+        next('login')
+      })
     }else {
       if (requiredLogin) {
         next('login')
